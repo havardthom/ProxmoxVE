@@ -10,7 +10,7 @@
   <p>In agreement with <a href="https://github.com/tteck">tteck</a> and <a href="https://github.com/community-scripts">Community-Scripts</a>, this project has now transitioned into a community-driven effort. We aim to continue his work, building on the foundation he laid to support Proxmox users worldwide.</p>
   <p>tteck, whose contribution has been invaluable, shared recently that he is now in hospice care. His scripts have empowered thousands, and we honor his legacy by carrying this project forward with the same passion and commitment. We’re deeply grateful for his vision, which made Proxmox accessible to so many.</p>
   <p>To tteck: Your impact will be felt in this community for years to come. We thank you for everything.</p>
-  <p>Warm regards,<br>The Community</p>
+  <p>Warm regards,<br>The Community!</p>
 </div>
 
 --- 
