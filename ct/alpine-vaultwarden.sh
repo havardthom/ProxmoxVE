@@ -21,7 +21,7 @@ header_info
 echo -e "Loading..."
 APP="Alpine-Vaultwarden"
 var_disk="0.3"
-var_cpu="1"
+var_cpu="2"
 var_ram="256"
 var_os="alpine"
 var_version="3.19"
