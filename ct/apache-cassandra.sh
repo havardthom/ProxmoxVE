@@ -21,7 +21,7 @@ header_info
 echo -e "Loading..."
 APP="Apache-Cassandra"
 var_disk="4"
-var_cpu="1"
+var_cpu="2"
 var_ram="2048"
 var_os="debian"
 var_version="12"
