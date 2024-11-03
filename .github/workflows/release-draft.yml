@@ -1,0 +1,169 @@
+name: Draft Release
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches:
+        - release-draft
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: release-draft  # Specify the branch to check out
+          fetch-depth: 0  # Fetch all history to access all tags
+
+      - name: Get previous release tag and its date
+        id: previous-release
+        run: |
+          # Get the latest tag excluding the current one
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD^)
+          PREVIOUS_TAG_DATE=$(git log -1 --format=%aI $PREVIOUS_TAG)  # ISO 8601 format date
+          echo "previous_tag=$PREVIOUS_TAG" >> $GITHUB_ENV
+          echo "previous_tag_date=$PREVIOUS_TAG_DATE" >> $GITHUB_ENV
+      
+      - name: Get categorized pull requests
+        id: get-categorized-prs
+        uses: actions/github-script@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          script: |
+            const previousTagDate = process.env.previous_tag_date;
+
+            const categorizedPRs = {
+              "Breaking Changes": {
+                emoji: "💥",
+                notes: []
+              },
+              "New Scripts": {
+                emoji: "✨",
+                notes: []
+              },
+              "Updated Scripts": {
+                emoji: "🚀",
+                notes: []
+              },
+              "Bug Fixes": {
+                emoji: "🐛",
+                notes: []
+              },
+              "Maintenance": {
+                emoji: "🧰",
+                notes: []
+              }
+            };
+
+            const { data: pulls } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "closed",
+              sort: "updated",
+              direction: "desc",
+              per_page: 100,
+            });
+
+            const mergedPRs = pulls.filter(pr => 
+              pr.merged_at && new Date(pr.merged_at) > new Date(previousTagDate)
+            );
+
+            mergedPRs.forEach(pr => {
+              const labels = pr.labels.map(label => label.name.toLowerCase());
+              const note = `- ${pr.title} @${pr.user.login} (#${pr.number})`;
+
+              if (labels.includes('breaking change')) {
+                categorizedPRs["Breaking Changes"].notes.push(note);
+              } else if (labels.includes('new script')) {
+                categorizedPRs["New Scripts"].notes.push(note);
+              } else if (labels.includes('update script')) {
+                categorizedPRs["Updated Scripts"].notes.push(note);
+              } else if (labels.includes('bug fix')) {
+                categorizedPRs["Bug Fixes"].notes.push(note);
+              } else if (labels.includes('chore')) {
+                categorizedPRs["Maintenance"].notes.push(note);
+              }
+            });
+
+            console.log("Generated release data:", JSON.stringify(categorizedPRs, null, 2));
+
+            core.exportVariable("categorizedPRs", JSON.stringify(categorizedPRs));
+
+      - name: Get release notes
+        id: get-release-notes
+        uses: actions/github-script@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          script: |
+            const categorizedPRs = JSON.parse(process.env.categorizedPRs);
+
+            let releaseNotes = "\n\n## What's Changed\n\n";
+            for (const [category, values] of Object.entries(categorizedPRs)) {
+              if (values.notes.length > 0) {
+                releaseNotes += `## ${values.emoji} ${category}\n\n${values.notes.join("\n")}\n\n`;
+              }
+            }
+            
+            core.setOutput("releaseNotes", releaseNotes.trim());
+
+      - name: Get release tag
+        id: get-release-tag
+        uses: actions/github-script@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          script: |
+            const categorizedPRs = JSON.parse(process.env.categorizedPRs);
+
+            const previousTag = process.env.previous_tag;
+            console.log(previousTag)
+            let [major, minor, patch] = previousTag.replace(/^v/, "").split(".").map(Number);
+
+            const categories = Object.entries(categorizedPRs)
+              .filter(([category, values]) => values.notes.length > 0)
+              .map(([category, values]) => category);
+
+            console.log(categories)
+
+            const majorCategories = ["Breaking Changes"]
+            const minorCategories = ["New Scripts", "Updated Scripts"]
+            const patchCategories = ["Bug Fixes", "Maintenance"]
+
+            const hasMajorChange = categories.some((x) => majorCategories.includes(x))
+            const hasMinorChange = categories.some((x) => minorCategories.includes(x))
+            const hasPatchChange = categories.some((x) => patchCategories.includes(x))
+
+            console.log(hasMajorChange)
+            console.log(hasMinorChange)
+            console.log(hasPatchChange)
+
+
+            if (hasMajorChange) {
+              major += 1;
+              minor = 0;
+              patch = 0;
+            } else if (hasMinorChange) {
+              minor += 1;
+              patch = 0;
+            } else if (hasPatchChange) {
+              patch += 1;
+            }
+
+            const releaseTag = `v${major}.${minor}.${patch}`;
+            console.log(releaseTag)
+            
+            core.setOutput("releaseTag", releaseTag);
+
+      - name: Create draft release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ steps.get-release-tag.outputs.releaseTag }}" \
+            --draft \
+            --title "${{ steps.get-release-tag.outputs.releaseTag }}" \
+            --notes "${{ steps.get-release-notes.outputs.releaseNotes }}"

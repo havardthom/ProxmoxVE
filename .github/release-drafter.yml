@@ -1,33 +1,34 @@
 name-template: 'v$RESOLVED_VERSION'
 tag-template: 'v$RESOLVED_VERSION'
+template: |
+  ## What’s Changed
+
+  $CHANGES
+
+  **Full Changelog**: https://github.com/$OWNER/$REPOSITORY/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION
 categories:
-  - title: '✨ NEW Scripts'
-    labels:
-      - 'new script'
-  - title: '🚀 UPDATED Scripts'
-    labels:
-      - 'update script'
+  - title: '💥 Breaking Changes'
+    label: 'breaking change'
+  - title: '✨ New Scripts'
+    label: 'new script'
+  - title: '🚀 Updated Scripts'
+    label: 'update script'
   - title: '🐛 Bug Fixes'
-    labels:
-      - 'bug fix'
+    label: 'bug fix'
   - title: '🧰 Maintenance'
-    labels: 
-      - 'chore'
+    label: 'chore'
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
 version-resolver:
   major:
     labels:
-      - 'major'
       - 'breaking change'
   minor:
     labels:
-      - 'minor'
       - 'new script'
       - 'update script'
   patch:
     labels:
-      - 'patch'
       - 'bug fix'
       - 'chore'
   default: patch
@@ -41,8 +42,6 @@ version-resolver:
 #   - label: 'breaking change'
 #     title:
 #       - '/breaking change/i'
-#     body:
-#       - '/breaking change/i'
 #   - label: 'bug fix'
 #     title:
 #       - '/bug fix/i'
@@ -54,7 +53,3 @@ version-resolver:
 #     files:
 #       - '**/build.func'
 #       - '**/install.func'
-template: |
-  ## What’s Changed
-
-  $CHANGES
