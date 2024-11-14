@@ -20,7 +20,7 @@ export const navbarLinks = [
     href: `https://github.com/community-scripts/${basePath}/discussions`,
     event: "Discussions",
     icon: <MessagesSquare className="h-4 w-4" />,
-    text: "Discussions",
+    text: "Discussions test",
   },
 ];
 
