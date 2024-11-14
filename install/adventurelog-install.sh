@@ -163,7 +163,7 @@ WantedBy=multi-user.target
 EOF
 systemctl enable -q --now adventurelog-backend.service
 systemctl enable -q --now adventurelog-frontend.service
-msg_ok "Created Service"
+msg_ok "Created Service update"
 
 motd_ssh
 customize
