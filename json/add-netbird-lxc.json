@@ -12,7 +12,7 @@
     "documentation": "https://docs.netbird.io/",
     "website": "https://netbird.io/",
     "logo": "https://avatars.githubusercontent.com/u/100464677?s=400&v=4",
-    "description": "NetBird combines a configuration-free peer-to-peer private network and a centralized access control system in a single platform, making it easy to create secure private networks for your organization or home.",
+    "description": "test NetBird combines a configuration-free peer-to-peer private network and a centralized access control system in a single platform, making it easy to create secure private networks for your organization or home.",
     "install_methods": [
         {
             "type": "default",
