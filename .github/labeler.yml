@@ -1,0 +1,24 @@
+
+
+
+frontend:
+- any:
+  - changed-files:
+    - any-glob-to-any-file: 'frontend/*'
+
+documentation:
+- any:
+  - changed-files:
+    - any-glob-to-any-file: 'json/*'
+
+maintenance:
+- any:
+  - changed-files:
+    - any-glob-to-any-file: '**/*.md'
+    - any-glob-to-any-file: '.github/*'
+
+'high risk':
+- any:
+  - changed-files:
+    - any-glob-to-any-file: '**/*.md'
+    - any-glob-to-any-file: '.github/*'

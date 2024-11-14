@@ -1,0 +1,76 @@
+name: Auto Label Pull Requests
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
+  workflow_dispatch:
+
+jobs:
+  auto_label:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Label PR Based on Conditions
+        uses: actions/github-script@v7
+        with:
+          script: |
+            console.log(context)
+
+            # // Define keyword-based labels
+            # const labelConfig = {
+            #   bug: ['bug', 'fix', 'error', 'issue'],
+            #   feature: ['feature', 'enhancement', 'new'],
+            #   docs: ['documentation', 'readme', 'docs']
+            # };
+
+            # // Define path-based labels
+            # const fileLabels = {
+            #   frontend: 'frontend/',
+            #   backend: 'backend/'
+            # };
+
+            # const prNumber = context.payload.pull_request.number;
+            # const prTitle = context.payload.pull_request.title.toLowerCase();
+            # const prBody = context.payload.pull_request.body ? context.payload.pull_request.body.toLowerCase() : '';
+
+            # const labelsToAdd = new Set();
+
+            # // Check for keyword matches in title and body
+            # for (const [label, keywords] of Object.entries(labelConfig)) {
+            #   if (keywords.some(keyword => prTitle.includes(keyword) || prBody.includes(keyword))) {
+            #     labelsToAdd.add(label);
+            #   }
+            # }
+
+            # // Fetch files changed in the pull request
+            # const files = await github.rest.pulls.listFiles({
+            #   owner: context.repo.owner,
+            #   repo: context.repo.repo,
+            #   pull_number: prNumber,
+            # });
+
+            # // Check for path-based labels
+            # files.data.forEach(file => {
+            #   for (const [label, path] of Object.entries(fileLabels)) {
+            #     if (file.filename.startsWith(path)) {
+            #       labelsToAdd.add(label);
+            #     }
+            #   }
+            # });
+
+            # // Add labels if any were found
+            # if (labelsToAdd.size > 0) {
+            #   await github.rest.issues.addLabels({
+            #     owner: context.repo.owner,
+            #     repo: context.repo.repo,
+            #     issue_number: prNumber,
+            #     labels: Array.from(labelsToAdd),
+            #   });
+            #   console.log(`Labels added: ${Array.from(labelsToAdd).join(', ')}`);
+            # } else {
+            #   console.log('No labels to add.');
+            # }
