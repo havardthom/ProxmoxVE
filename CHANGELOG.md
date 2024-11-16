@@ -17,11 +17,31 @@ All LXC instances created using this repository come pre-installed with Midnight
 
 ### Changed
 
-- **Recyclarr LXC** [(View Source)](https://github.com/community-scripts/ProxmoxVE/blob/main/install/recyclarr-install.sh)
-  - NEW Script
-- **Wavelog LXC** [(View Source)](https://github.com/community-scripts/ProxmoxVE/blob/main/install/wavelog-install.sh)
-  - NEW Script
+### 💥 Breaking Changes
 
+- delete script by [@havardthom](https://github.com/havardthom) ([#16](https://github.com/havardthom/ProxmoxVE/pull/16))
+- rename script by [@havardthom](https://github.com/havardthom) ([#17](https://github.com/havardthom/ProxmoxVE/pull/17))
+
+### ✨ New Scripts
+
+- new script by [@havardthom](https://github.com/havardthom) ([#13](https://github.com/havardthom/ProxmoxVE/pull/13))
+
+### 🚀 Updated Scripts
+
+- update script by [@havardthom](https://github.com/havardthom) ([#12](https://github.com/havardthom/ProxmoxVE/pull/12))
+
+### 🌐 Website
+
+- frontend change by [@havardthom](https://github.com/havardthom) ([#11](https://github.com/havardthom/ProxmoxVE/pull/11))
+- update documentation by [@havardthom](https://github.com/havardthom) ([#14](https://github.com/havardthom/ProxmoxVE/pull/14))
+
+### 🧰 Maintenance
+
+- update readme by [@havardthom](https://github.com/havardthom) ([#15](https://github.com/havardthom/ProxmoxVE/pull/15))
+
+### ❔ Unlabelled
+
+- update build.func by [@havardthom](https://github.com/havardthom) ([#18](https://github.com/havardthom/ProxmoxVE/pull/18))
 
 ## 2024-11-05
 
