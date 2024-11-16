@@ -1,0 +1,158 @@
+name: Update Changelog
+
+on:
+  push:
+    branches: ["auto-changelog"]
+
+  workflow_dispatch:
+
+jobs:
+  update-changelog:
+    runs-on: ubuntu-latest
+    env:
+      CONFIG_PATH: .github/release-draft-config.json
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get latest changelog update date
+        id: latest-changelog-date
+        run: |
+          # Extract the latest and second latest dates from changelog
+          DATES=$(grep '^## ' CHANGELOG.md | head -n 2 | awk '{print $2}')
+
+          LATEST_DATE=$(echo "$DATES" | sed -n '1p')
+          SECOND_LATEST_DATE=$(echo "$DATES" | sed -n '2p')
+          TODAY=$(date +%Y-%m-%d)
+
+          echo "TODAY=$TODAY" >> $GITHUB_ENV
+          if [ "$LATEST_DATE" == "$TODAY" ]; then
+            echo "LATEST_DATE=$SECOND_LATEST_DATE" >> $GITHUB_ENV
+          else
+            echo "LATEST_DATE=$LATEST_DATE" >> $GITHUB_ENV
+          fi
+
+      - name: Get categorized pull requests
+        id: get-categorized-prs
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs').promises;
+            const path = require('path');
+
+            const configPath = path.resolve(process.env.CONFIG_PATH);
+            const fileContent = await fs.readFile(configPath, 'utf-8');
+            const releaseDraftConfig = JSON.parse(fileContent);
+            const categorizedPRs = releaseDraftConfig.map((obj) => ({ ...obj, notes: [] }));
+
+            const latestDateInChangelog = new Date(process.env.LATEST_DATE);
+
+            const { data: pulls } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "closed",
+              sort: "updated",
+              direction: "desc",
+              per_page: 100,
+            });
+
+            pulls.filter((pr) => 
+              pr.merged_at && new Date(pr.merged_at) > latestDateInChangelog
+            ).forEach((pr) => {
+              const prLabels = pr.labels.map((label) => label.name.toLowerCase());
+              const prNote = `- **${pr.title}** @${pr.user.login} [(View Source)](${pr.html_url})`;
+
+              for (const { labels, notes } of categorizedPRs) {
+                if (labels.some((label) => prLabels.includes(label)) || labels.length === 0) {
+                  notes.push(prNote);
+                  break;
+                }
+              };
+            });
+
+            return categorizedPRs;
+
+      - name: Update CHANGELOG.md
+        id: update-changelog
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs').promises;
+            const path = require('path');
+
+            const today = process.env.TODAY;
+            const latestDateInChangelog = process.env.LATEST_DATE;
+
+            const changelogPath = path.resolve('CHANGELOG.md');
+
+            const categorizedPRs = ${{ steps.get-categorized-prs.outputs.result }};
+            
+            let newReleaseNotes = `\n## ${today}\n\n### Changed\n\n`;
+            for (const { title, notes } of categorizedPRs) {
+              if (notes.length > 0) {
+                newReleaseNotes += `${notes.join("\n")}\n\n`;
+              }
+            }
+
+            const changelogContent = await fs.readFile(changelogPath, 'utf-8');
+            const changelogIncludesTodaysReleaseNotes = changelogContent.includes(`\n## ${today}`);
+            if (changelogIncludesTodaysReleaseNotes) {
+              const todaysReleaseNotesRegex = new RegExp(`\n## ${today}.*(?=## ${latestDateInChangelog})`, "gs");
+              const newChangelogContent = changelogContent.replace(todaysReleaseNotesRegex, newReleaseNotes)
+              console.log("newChangelogContent", newChangelogContent)
+              await fs.writeFile(changelogPath, newChangelogContent);
+            }
+
+      # - name: Commit and push changes
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     git config --global user.name "github-actions[bot]"
+      #     git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      #     git add CHANGELOG.md
+      #     git commit -m "Update CHANGELOG.md"
+      #     git push origin main
+    
+  create-or-update-pull-request:
+    runs-on: ubuntu-latest
+    needs: update-changelog
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Create Pull Request
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { repo, owner } = context.repo;
+            const pulls = await github.rest.pulls.list({
+              owner: owner,
+              repo: repo,
+              head: context.ref,
+              base: 'main',
+              state: 'open',
+            });
+            
+            if (pulls.data.length < 1) {
+              await github.rest.pulls.create({
+                title: '[Github Action] Update CHANGELOG.md',
+                owner: owner,
+                repo: repo,
+                head: context.ref,
+                base: 'main',
+                body: 'This PR is auto-generated by a Github Action to update the CHANGELOG.md file.'
+              });
+            } else {
+              const existingPR = pulls.data[0];
+              await github.rest.pulls.update({
+                owner: owner,
+                repo: repo,
+                pull_number: existingPR.number,
+                body: [
+                  existingPR.body,
+                  `Updated by Job ${context.job}`,
+                ].join('\n'),
+              });
+            }
