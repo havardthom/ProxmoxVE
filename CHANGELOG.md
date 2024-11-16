@@ -12,16 +12,35 @@ Exercise vigilance regarding copycat or coat-tailing sites that seek to exploit 
 
 > [!NOTE]
 All LXC instances created using this repository come pre-installed with Midnight Commander, which is a command-line tool (`mc`) that offers a user-friendly file and directory management interface for the terminal environment.
-
 ## 2024-11-16
 
 ### Changed
 
-- **Recyclarr LXC** [(View Source)](https://github.com/community-scripts/ProxmoxVE/blob/main/install/recyclarr-install.sh)
-  - NEW Script
-- **Wavelog LXC** [(View Source)](https://github.com/community-scripts/ProxmoxVE/blob/main/install/wavelog-install.sh)
-  - NEW Script
+### 💥 Breaking Changes
 
+- delete script [@havardthom](https://github.com/havardthom) ([#16](https://github.com/havardthom/ProxmoxVE/pull/16))
+- rename script [@havardthom](https://github.com/havardthom) ([#17](https://github.com/havardthom/ProxmoxVE/pull/17))
+
+### ✨ New Scripts
+
+- new script [@havardthom](https://github.com/havardthom) ([#13](https://github.com/havardthom/ProxmoxVE/pull/13))
+
+### 🚀 Updated Scripts
+
+- update script [@havardthom](https://github.com/havardthom) ([#12](https://github.com/havardthom/ProxmoxVE/pull/12))
+
+### 🌐 Website
+
+- frontend change [@havardthom](https://github.com/havardthom) ([#11](https://github.com/havardthom/ProxmoxVE/pull/11))
+- update documentation [@havardthom](https://github.com/havardthom) ([#14](https://github.com/havardthom/ProxmoxVE/pull/14))
+
+### 🧰 Maintenance
+
+- update readme [@havardthom](https://github.com/havardthom) ([#15](https://github.com/havardthom/ProxmoxVE/pull/15))
+
+### ❔ Unlabelled
+
+- update build.func [@havardthom](https://github.com/havardthom) ([#18](https://github.com/havardthom/ProxmoxVE/pull/18))
 
 ## 2024-11-05
 
