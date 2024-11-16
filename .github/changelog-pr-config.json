@@ -1,0 +1,31 @@
+[
+    {
+        "title": "💥 Breaking Changes",
+        "labels": ["breaking change"]
+    },
+    {
+        "title": "✨ New Scripts",
+        "labels": ["new script"],
+        "versionIncrement": "minor"
+    },
+    {
+        "title": "🚀 Updated Scripts",
+        "labels": ["update script"]
+    },
+    {
+        "title": "🌐 Website",
+        "labels": ["website"]
+    },
+    {
+        "title": "🐞 Bug Fixes",
+        "labels": ["bug fix"]
+    },
+    {
+        "title": "🧰 Maintenance",
+        "labels": ["maintenance"]
+    },
+    {
+        "title": "❔ Unlabelled",
+        "labels": []
+    }
+]
