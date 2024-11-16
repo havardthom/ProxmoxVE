@@ -1,8 +1,7 @@
 [
     {
         "title": "💥 Breaking Changes",
-        "labels": ["breaking change"],
-        "versionIncrement": "major"
+        "labels": ["breaking change"]
     },
     {
         "title": "✨ New Scripts",
@@ -11,27 +10,22 @@
     },
     {
         "title": "🚀 Updated Scripts",
-        "labels": ["update script"],
-        "versionIncrement": "minor"
+        "labels": ["update script"]
     },
     {
         "title": "🌐 Website",
-        "labels": ["website"],
-        "versionIncrement": "minor"
+        "labels": ["website"]
     },
     {
         "title": "🐞 Bug Fixes",
-        "labels": ["bug fix"],
-        "versionIncrement": "patch"
+        "labels": ["bug fix"]
     },
     {
         "title": "🧰 Maintenance",
-        "labels": ["maintenance"],
-        "versionIncrement": "patch"
+        "labels": ["maintenance"]
     },
     {
         "title": "❔ Unlabelled",
-        "labels": [],
-        "versionIncrement": "patch"
+        "labels": []
     }
 ]
