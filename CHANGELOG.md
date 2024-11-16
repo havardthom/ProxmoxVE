@@ -14,6 +14,37 @@ Exercise vigilance regarding copycat or coat-tailing sites that seek to exploit 
 All LXC instances created using this repository come pre-installed with Midnight Commander, which is a command-line tool (`mc`) that offers a user-friendly file and directory management interface for the terminal environment.
 
 
+
+## 2024-11-16
+
+### Changed
+
+### 💥 Breaking Changes
+
+- delete script by [@havardthom](https://github.com/havardthom) ([#16](https://github.com/havardthom/ProxmoxVE/pull/16))
+- rename script by [@havardthom](https://github.com/havardthom) ([#17](https://github.com/havardthom/ProxmoxVE/pull/17))
+
+### ✨ New Scripts
+
+- new script by [@havardthom](https://github.com/havardthom) ([#13](https://github.com/havardthom/ProxmoxVE/pull/13))
+
+### 🚀 Updated Scripts
+
+- update script by [@havardthom](https://github.com/havardthom) ([#12](https://github.com/havardthom/ProxmoxVE/pull/12))
+
+### 🌐 Website
+
+- frontend change by [@havardthom](https://github.com/havardthom) ([#11](https://github.com/havardthom/ProxmoxVE/pull/11))
+- update documentation by [@havardthom](https://github.com/havardthom) ([#14](https://github.com/havardthom/ProxmoxVE/pull/14))
+
+### 🧰 Maintenance
+
+- update readme by [@havardthom](https://github.com/havardthom) ([#15](https://github.com/havardthom/ProxmoxVE/pull/15))
+
+### ❔ Unlabelled
+
+- update build.func by [@havardthom](https://github.com/havardthom) ([#18](https://github.com/havardthom/ProxmoxVE/pull/18))
+
 ## 2024-11-05
 
 ### Changed
