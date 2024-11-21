@@ -37,6 +37,8 @@ After=network-online.target
 User=root
 WorkingDirectory=/opt/zwave-js-ui
 ExecStart=/opt/zwave-js-ui/zwave-js-ui-linux
+Environment="ZWAVEJS_EXTERNAL_CONFIG=/opt/zwave-js-ui/.config-db"
+Environment="STORE_DIR=/opt/zwave-js-ui/store"
 [Install]
 WantedBy=multi-user.target" >$service_path
 systemctl start zwave-js-ui
