@@ -1,0 +1,45 @@
+name: Create new release
+
+on:
+  # schedule:
+    # Runs "At 23:59 every night" (UTC)
+    # - cron: '59 23 * * *'
+  push:
+    branches: ["main"]
+
+jobs:
+  create-new-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Parse CHANGELOG.md for today's entries and create a new tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TODAY=$(date -u +%Y-%m-%d)
+          TODAYS_CHANGELOG_NOTES=$(awk '/^## '"$TODAY"'/ {f=1; next} f && /^## [0-9]{4}-[0-9]{2}-[0-9]{2}/ {f=0} f && !/^## / {print}' CHANGELOG.md)
+
+          echo $TODAY
+          echo $TODAYS_CHANGELOG_NOTES
+          
+          if [ -n "$TODAYS_CHANGELOG_NOTES" ]; then
+            gh release create "$TODAY" -n "$TODAYS_CHANGELOG_NOTES" --latest
+          fi
+
+          # git config --global user.name "github-actions[bot]"
+          # git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          # git tag -a "$TODAY" -m "$TODAYS_CHANGELOG_NOTES"
+          # git push --tags
+
+          # gh release create $TODAY -n $TODAYS_CHANGELOG_NOTES --latest
+
+      # - name: Create release
+      #   run: |
+      #     gh release create ${{ env.GITHUB_TAG_RELEASE_VERSION }} -t ${{ env.GITHUB_TAG_RELEASE_VERSION }} -n ${{ env.GITHUB_TAG_RELEASE_VERSION }} -F ${{ env.GITHUB_TAG_RELEASE_VERSION }}
+
+      #     # bodyFile: "RELEASE_CHANGELOG.md"
+      #     # tag: ${{ env.GITHUB_TAG_RELEASE_VERSION }}
+      #     # makeLatest: true

@@ -35,7 +35,7 @@ jobs:
 
           LATEST_DATE=$(echo "$DATES" | sed -n '1p')
           SECOND_LATEST_DATE=$(echo "$DATES" | sed -n '2p')
-          TODAY=$(date +%Y-%m-%d)
+          TODAY=$(date -u +%Y-%m-%d)
 
           echo "TODAY=$TODAY" >> $GITHUB_ENV
           if [ "$LATEST_DATE" == "$TODAY" ]; then
