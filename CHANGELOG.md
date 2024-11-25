@@ -20,10 +20,6 @@ Do not break established syntax in this file, as it is automatically updated by 
 
 ### Changed
 
-### 🌐 Website
-
-- Fix website url in Zoraxy documentation [@miggi92](https://github.com/miggi92) ([#506](https://github.com/community-scripts/ProxmoxVE/pull/506))
-
 ## 2024-11-24
 
 ### Changed
