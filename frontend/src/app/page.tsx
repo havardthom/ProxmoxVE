@@ -42,7 +42,7 @@ export default function Page() {
         color={color}
         refresh
       />
-      <div className="container mx-auto">
+      <div className=" mx-auto container">
         <div className="flex h-[80vh] flex-col items-center justify-center gap-4 py-20 lg:py-40">
           <Dialog>
             <DialogTrigger>
