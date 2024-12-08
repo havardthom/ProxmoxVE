@@ -24,6 +24,7 @@ $STD apk add argon2
 msg_ok "Installed Dependencies"
 
 msg_info "Installing Alpine-Vaultwarden"
+sed -i 's/latest-stable/edge/g' /etc/apk/repositories
 $STD apk add vaultwarden
 sed -i -e 's/# export ADMIN_TOKEN=.*/export ADMIN_TOKEN='\'''\''/' -e '/^# export ROCKET_ADDRESS=0\.0\.0\.0/s/^# //' -e 's|export WEB_VAULT_ENABLED=.*|export WEB_VAULT_ENABLED=true|' /etc/conf.d/vaultwarden
 msg_ok "Installed Alpine-Vaultwarden"
