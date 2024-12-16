@@ -20,24 +20,6 @@ Do not break established syntax in this file, as it is automatically updated by 
 
 ### Changed
 
-### 💥 Breaking Changes
-
-- Massive Update: build.func | install.func | create_lxc.sh (Part 1) [@MickLesk](https://github.com/MickLesk) ([#643](https://github.com/community-scripts/ProxmoxVE/pull/643))
-- Update ALL CT's to new default (Part 2) [@MickLesk](https://github.com/MickLesk) ([#710](https://github.com/community-scripts/ProxmoxVE/pull/710))
-
-### ✨ New Scripts
-
-- New Script: LXC IP-Tag [@MickLesk](https://github.com/MickLesk) ([#536](https://github.com/community-scripts/ProxmoxVE/pull/536))
-
-### 🚀 Updated Scripts
-
-- Update Script: Remove Docker Compose Question [@michelroegl-brunner](https://github.com/michelroegl-brunner) ([#847](https://github.com/community-scripts/ProxmoxVE/pull/847))
-- Increase Size | Description & Download-URL of Debian VM [@MickLesk](https://github.com/MickLesk) ([#837](https://github.com/community-scripts/ProxmoxVE/pull/837))
-
-### 🌐 Website
-
-- Bump nanoid from 3.3.7 to 3.3.8 in /frontend [@dependabot[bot]](https://github.com/dependabot[bot]) ([#845](https://github.com/community-scripts/ProxmoxVE/pull/845))
-
 ## 2024-12-13
 
 ### Changed
